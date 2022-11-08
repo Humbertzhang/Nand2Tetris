@@ -9,10 +9,16 @@
  *       0 otherwise
  */
 
+/*
+And(a, b) = Not(Nand(a, b))
+*/
+
 CHIP And {
     IN a, b;
     OUT out;
 
     PARTS:
     // Put your code here:
+    Nand(a=a,b=b,out=nandab);
+    Not(in=nandab, out=out);
 }
