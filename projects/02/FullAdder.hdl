@@ -6,6 +6,11 @@
 /**
  * Computes the sum of three bits.
  */
+/*
+先HalfAdd(a,b), 得到sum0 和 carry0
+然后再HalfAdd(sum0, c), 得到sum和carry1
+Or(carry0, carry1) = carry
+*/
 
 CHIP FullAdder {
     IN a, b, c;  // 1-bit inputs
@@ -14,4 +19,7 @@ CHIP FullAdder {
 
     PARTS:
     // Put you code here:
+	HalfAdder(a=a, b=b, sum=sum0, carry=carry0);
+	HalfAdder(a=sum0, b=c, sum=sum, carry=carry1);
+	Or(a=carry0, b=carry1, out=carry);
 }

@@ -43,4 +43,33 @@ CHIP ALU {
 
     PARTS:
    // Put you code here:
+   // handle x
+   And16(a[0..15]=x[0..15], b[0..15]=false, out[0..15]=zerox);
+   Mux16(a[0..15]=x[0..15], b[0..15]=zerox, sel=zx, out[0..15]=zxed);
+   Not16(in[0..15]=zxed, out[0..15]=negatex);
+   Mux16(a[0..15]=zxed, b[0..15]=negatex, sel=nx, out[0..15]=nxed);
+	
+   // handle y
+   And16(a[0..15]=y[0..15], b[0..15]=false, out[0..15]=zeroy);
+   Mux16(a[0..15]=y[0..15], b[0..15]=zeroy, sel=zy, out[0..15]=zyed);
+   Not16(in[0..15]=zyed, out[0..15]=negatey);
+   Mux16(a[0..15]=zyed, b[0..15]=negatey, sel=ny, out[0..15]=nyed);
+	
+   // x y
+   And16(a[0..15]=nxed, b[0..15]=nyed, out[0..15]=andxy);
+   Add16(a[0..15]=nxed, b[0..15]=nyed, out[0..15]=addxy);
+   Mux16(a[0..15]=andxy, b[0..15]=addxy, sel=f, out[0..15]=outed);
+   
+   // negate out 
+   Not16(in[0..15]=outed, out[0..15]=nouted);
+   Mux16(a[0..15]=outed, b[0..15]=nouted, sel=no, out=out, out=full, out[0..7]=outp1, out[8..15]=outp2);
+  
+   // ng: judge if out[0] == 1
+   And16(a[0..15]=full, b[0..15]=true, out[15]=ng);
+
+   // zr
+   Or8Way(in[0..7]=outp1, out=zr01);
+   Or8Way(in[0..7]=outp2, out=zr02);
+   Or(a=zr01, b=zr02, out=ngzr);
+   Not(in=ngzr, out=zr);
 }
