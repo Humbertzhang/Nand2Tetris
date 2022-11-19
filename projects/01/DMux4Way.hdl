@@ -10,11 +10,23 @@
  *                {0, 0, in, 0} if sel == 10
  *                {0, 0, 0, in} if sel == 11
  */
-
+/*
+a: Mux(a=Mux(a=in, b=0, sel[0]), b=0, sel[1])
+b: Mux(a=0, b=Mux(a=in, b=0, sel[0]), sel[1])
+c: Mux(a=Mux(a=0, b=in, sel[0]), b=0, sel[1])
+b: Mux(a=0, b=Mux(a=0, b=in, sel[0]), sel[1])
+*/
 CHIP DMux4Way {
     IN in, sel[2];
     OUT a, b, c, d;
 
     PARTS:
     // Put your code here:
+	Mux(a=in, b=false, sel=sel[1], out=t1);
+	Mux(a=false, b=in, sel=sel[1], out=t2);
+
+	Mux(a=t1, b=false, sel=sel[0], out=a);
+	Mux(a=false, b=t1, sel=sel[0], out=b);
+	Mux(a=t2, b=false, sel=sel[0], out=c);
+	Mux(a=false, b=t2, sel=sel[0], out=d);
 }

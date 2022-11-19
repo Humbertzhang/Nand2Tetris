@@ -17,4 +17,20 @@ CHIP DMux8Way {
 
     PARTS:
     // Put your code here:
+	Mux(a=in, b=false, sel=sel[2], out=t1);
+	Mux(a=false, b=in, sel=sel[2], out=t2);
+
+	Mux(a=t1, b=false, sel=sel[1], out=s1);
+	Mux(a=false, b=t1, sel=sel[1], out=s2);
+	Mux(a=t2, b=false, sel=sel[1], out=s3);
+	Mux(a=false, b=t2, sel=sel[1], out=s4);
+
+	Mux(a=s1, b=false, sel=sel[0], out=a);
+	Mux(a=false, b=s1, sel=sel[0], out=b);
+	Mux(a=s2, b=false, sel=sel[0], out=c);
+	Mux(a=false, b=s2, sel=sel[0], out=d);
+	Mux(a=s3, b=false, sel=sel[0], out=e);
+	Mux(a=false, b=s3, sel=sel[0], out=f);
+	Mux(a=s4, b=false, sel=sel[0], out=g);
+	Mux(a=false, b=s4, sel=sel[0], out=h);
 }
